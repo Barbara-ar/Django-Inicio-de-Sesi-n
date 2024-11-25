@@ -1,0 +1,20 @@
+# Ignorar el archivo .env
+.env
+
+# Ignorar las carpetas de caché de Python
+__pycache__/
+*.py[cod]
+
+# Ignorar los entornos virtuales
+env/
+venv/
+ENV/
+.VENV/
+
+# Ignorar archivos de logs
+*.log
+
+# Ignorar otros archivos temporales o del sistema operativo
+*.swp
+.DS_Store
+Thumbs.db

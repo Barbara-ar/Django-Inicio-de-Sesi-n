@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Edicion de tareas</h1>
+<form action="{% url 'tasks:edit' task.id %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="actualizar">
+</form>
+
+<br>
+
+<a href="{% url 'tasks:detail' task.id %}">Detalles</a> |
+<a href="{% url 'tasks:index' %}">Volver</a>
+
+{% endblock %}
