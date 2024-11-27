@@ -1,60 +1,49 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.contrib.auth import login, authenticate
-from .forms import (
-    CustomUserCreationForm,
-    UserUpdateForm,
-)  
-from django.contrib.auth import get_user_model
-from django.views.generic import (
-    DetailView,
-    UpdateView,
-    DeleteView,
-)
-from django.urls import reverse  
-from django.contrib.auth.views import (
-    PasswordChangeView, PasswordChangeDoneView
-)
-from django.contrib.auth.mixins import UserPassesTestMixin   
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib import messages
+from .forms import CustomUserCreationForm, EditProfileForm  # Asegúrate de importar el formulario de edición
+from .models import CustomUser
 
-User = get_user_model()
+# Vista para el registro de usuarios
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Crea al usuario
+            login(request, user)  # Inicia sesión al registrar
+            messages.success(request, '¡Tu cuenta ha sido creada con éxito!')
+            return redirect('accounts:account_details')  # Redirige a los detalles del usuario
+    else:
+        form = CustomUserCreationForm()  # Formulario vacío al cargar la página
+    return render(request, 'accounts/signup.html', {'form': form})
 
-class UserCreateAndLoginView(CreateView):
-    form_class = CustomUserCreationForm  
-    template_name = "accounts/signup.html"
-    success_url = reverse_lazy("tasks:index")
+# Vista para mostrar los detalles del usuario
+@login_required
+def account_details(request):
+    return render(request, 'accounts/user_detail.html', {'user': request.user})
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        email = form.cleaned_data.get("email")
-        raw_pw = form.cleaned_data.get("password1")
-        user = authenticate(email=email, password=raw_pw)
-        login(self.request, user)
-        return response
-    
-class OnlyYouMixin(UserPassesTestMixin):
-    def test_func(self):
-        user = self.request.user
-        return user.pk == self.kwargs['pk'] or user.is_superuser
+# Vista para editar el perfil del usuario
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)  # Rellena el formulario con los datos actuales del usuario
+        if form.is_valid():
+            form.save()  # Guarda los cambios
+            messages.success(request, '¡Perfil actualizado con éxito!')
+            return redirect('accounts:account_details')  # Redirige a los detalles del usuario
+    else:
+        form = EditProfileForm(instance=request.user)  # Muestra el formulario con los datos actuales del usuario
 
-class UserDetail(OnlyYouMixin, DetailView):
-    model = User
-    template_name = 'accounts/user_detail.html'
+    return render(request, 'accounts/user_edit.html', {'form': form})  # Renderiza el formulario de edición
 
-class UserUpdate(OnlyYouMixin, UpdateView): 
-    model = User
-    form_class = UserUpdateForm
-    template_name = 'accounts/user_edit.html'
-    def get_success_url(self):
-     return reverse('user_detail', kwargs={'pk': self.kwargs['pk']})
-
-class PasswordChange(PasswordChangeView):
-    template_name = 'accounts/password_change.html'
-
-class PasswordChangeDone(PasswordChangeDoneView):
-    template_name = 'accounts/user_detail.html'
-
-class UserDelete(OnlyYouMixin, DeleteView):
-    model = User
-    template_name = 'accounts/user_delete.html'
-    success_url = reverse_lazy('login')
+# Vista para eliminar la cuenta del usuario
+@login_required
+def delete_account(request):
+    user = request.user
+    if request.method == "POST":
+        # Elimina la cuenta
+        user.delete()
+        messages.success(request, 'Tu cuenta ha sido eliminada con éxito.')
+        return redirect('accounts:login')  # Redirige al login después de eliminar la cuenta
+    return render(request, 'accounts/user_delete.html', {'user': user})  # Muestra una página de confirmación

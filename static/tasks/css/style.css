@@ -1,52 +1,98 @@
-main {
-  margin: 100px 50px;
-}
-
-nav {
-  top: 0;
-  width: 100%;
-  background-color: #2c3e50;
-  height: 50px;
-  opacity: 0.9;
-  position: fixed;
-}
-
-nav ul {
+/* Estilos Generales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 
-nav ul:after {
-  content: "";
-  display: block;
-  clear: both;
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-nav li {
-  float: left;
+/* Contenedor Principal */
+.container {
+  width: 60%;
+  margin: 0 auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-nav li a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: white;
+/* Campos de Entrada */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.main {
-  font-size: 1.5rem;
-  max-width: 800px;
-  margin: 100px auto 200px;
-}
-
-footer {
+input[type="text"], input[type="email"], input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
   width: 100%;
-  background-color: #2c3e50;
-  opacity: 0.9;
-  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+/* Estilo del Botón */
+button {
+  padding: 10px;
+  background-color: #007BFF;
   color: white;
-  font-size: 12px;
-  position: fixed;
-  bottom: 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Enlaces */
+a {
+  color: #007BFF;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo de los Enlaces del Menú de Navegación */
+nav {
+  text-align: center;
+  margin-top: 20px;
+}
+
+nav a {
+  margin: 0 10px;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para el formulario de eliminación de cuenta */
+form.delete-account {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+form.delete-account button {
+  background-color: #dc3545;
+}
+
+form.delete-account button:hover {
+  background-color: #c82333;
 }

@@ -1,27 +1,11 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block main %}
-<table>
-  <tbody>
-    <tr>
-      <th>Nombre de usuario</th>
-      <td>{{ user.username }}</td>
-    </tr>
-    <tr>
-      <th>Direccion de email</th>
-      <td>{{ user.email }}</td>
-    </tr>
-    <tr>
-      <th>Edad</th>
-      <td>{{ user.age }}</td>
-    </tr>
-  </tbody>
-</table>
-
-<form action="{% url 'user_delete' user.id %}" method="post">
-  {% csrf_token %}
-  <input type="submit" value="dar de baja">
+{% block content %}
+<h2>Eliminar Cuenta</h2>
+<p>Estás a punto de eliminar tu cuenta. Esta acción es irreversible.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Eliminar Cuenta</button>
 </form>
-
-<a href="{% url 'user_detail' user.id %}">Volver</a>
+<a href="{% url 'accounts:account_details' %}">Cancelar</a>
 {% endblock %}

@@ -1,16 +1,7 @@
-{% extends "base.html" %}
-
-{% block main %}
-<h1>Detalles de la tarea</h1>
-<p>
-  <strong>Titulo:</strong>
-  {{task.title}}
-</p>
-
-<p>
-  <strong>Contenido:</strong>
-  {{task.content}}
-</p>
-<a href="{% url 'tasks:index' %}">Home</a> |
-<a href="{% url 'tasks:edit' task.id %}">Editar</a>
-{% endblock %}
+<h1>{{ task.title }}</h1>
+<p>{{ task.content }}</p>
+<a href="{% url 'tasks:edit' task.id %}">Edit</a>
+<form method="post" action="{% url 'tasks:delete' task.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>

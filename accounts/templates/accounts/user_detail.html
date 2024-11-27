@@ -1,22 +1,9 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block main %}
-<table class="table">
-  <tbody>
-    <tr>
-      <th>Nombre de usuario</th>
-      <td>{{ user.username }}</td>
-    </tr>
-    <tr>
-      <th>Direccion de email</th>
-      <td>{{ user.email }}</td>
-    </tr>
-    <tr>
-      <th>Edad</th>
-      <td>{{ user.age }}</td>
-    </tr>
-  </tbody>
-</table>
-<a href="{% url 'user_update' user.pk %}">Editar</a> 
-<a href="{% url 'password_change' %}">Cambiar contraseña</a>
+{% block content %}
+<h2>Detalles de la Cuenta</h2>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Nombre de Usuario:</strong> {{ user.username }}</p>
+<p><strong>Edad:</strong> {{ user.age }}</p>
+<a href="{% url 'accounts:logout' %}">Cerrar Sesión</a>
 {% endblock %}

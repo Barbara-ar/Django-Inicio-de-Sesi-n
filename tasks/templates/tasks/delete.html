@@ -1,22 +1,7 @@
-{% extends "base.html" %}
-
-{% block main %}
-<h1>Pagina de eliminacion de tareas</h1>
-<p>
-  <strong>Titulo:</strong>
-  {{task.title}}
-</p>
-
-<p>
-  <strong>Contenido:</strong>
-  {{task.content}}
-</p>
-<form action="{% url 'tasks:delete' task.id %}" method="post">
-  {% csrf_token %}
-  <input type="submit" value="eliminar">
+<h1>Delete Task</h1>
+<p>Are you sure you want to delete "{{ task.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
 </form>
-
-<br>
-
-<a href="{% url 'tasks:index' %}">Volver</a>
-{% endblock %}
+<a href="{% url 'tasks:index' %}">Cancel</a>
